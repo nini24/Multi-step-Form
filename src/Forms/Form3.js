@@ -1,10 +1,18 @@
 import React from "react";
 import Stepper1 from "../Steppers.js/Stepper1";
 import Header from "../Headers";
+import {useFormik} from 'formik'
 
 
 
-const Form3 = () => {
+const Form3 = (props) =>
+{
+    const formik = useFormik({
+        initialValues: props.data,
+        onSubmit: (values) => props.next(values),
+        validationSchema: props.validation
+    })
+    
     return (
         <div className="mt-20 ml-40">
             <Header />
@@ -17,10 +25,10 @@ const Form3 = () => {
                     <h2 className="text-white font-bold text-xl mb-3">What services are you looking for?</h2>
                     <p className="text-white/50 font-light text-sm mb-4">Please let us know what type of business describes you</p> 
             <div className="border-b border-slate-700/25 mt-8"></div>
-                   
-                    <form className="mt-8">
+                     {/*   {({values}) => ( */}
+                    <form className="mt-8" onSubmit={formik.handleSubmit}>
                    <div className="relative mb-4">
-                       <input type='radio' name='business' id="website" className="hidden peer"/>
+                       <input type='radio' name='services' id="website" className="hidden peer" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                        <label for='website' className="grid border border-slate-400 rounded-md bg-transparent px-3 py-4 peer-checked:border-green-400 transition">
                            <div className="grid grid-cols-6">
                                <div className="w-16"> 
@@ -36,7 +44,7 @@ const Form3 = () => {
                        </label>
                    </div>
                    <div className="relative mb-5">
-                       <input type='radio' name='business' id="existing" className="hidden peer"/>
+                       <input type='radio' name='services' id="existing" className="hidden peer" onChange={formik.handleChange} onBlur={formik.handleBlur}/>
                        <label for='existing' className="grid border border-slate-400 rounded-md bg-transparent px-3 py-4 peer-checked:border-green-400 transition">
                            <div className="grid grid-cols-6">
                                <div className="w-16"> 
@@ -51,15 +59,17 @@ const Form3 = () => {
                            </div>
                        </label>
                    </div>
+                   {formik.touched.services && formik.errors.services ? (<div className='text-white mb-8 bg-red-500 py-1 px-2 w-40 rounded-md'>{formik.errors.services}</div>) : null}
+
             
-                   <div className="flex ml-80">
-                   <p className="text-white mt-2 mr-2 grid font-light">Back</p>
+                   <div className="flex ml-64">
+                   <button type='button' className='text-white' onClick={()=> props.prev()}>Back</button>
+
 
                     <button type="submit" className="bg-green-400 px-7 py-3 text-xs text-white font-medium rounded-3xl ml-16">Next Step</button>
                         
                         </div>
                     </form>
-                    
                 </div>
 
             </div>

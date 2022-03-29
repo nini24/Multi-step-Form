@@ -3,7 +3,9 @@ import Stepper1 from "../Steppers.js/Stepper1";
 import Header from "../Headers";
 import "antd/dist/antd.css";
 import { Slider } from "antd";
-import '../Styles/Form1.css'
+import '../Styles/Form4.css'
+import {useFormik} from 'formik'
+
 
 
 const marks = {
@@ -14,8 +16,15 @@ const marks = {
 
 }
 
-const Form4 = () =>
+const Form4 = (props) =>
  {
+     const formik = useFormik({
+         initialValues:props.data,
+         onSubmit: (values) => {
+             props.next(values)
+         }
+     })
+    
     return (
         <div className="mt-20 ml-40">
             <Header />
@@ -28,17 +37,17 @@ const Form4 = () =>
                     <h2 className="text-white font-bold text-xl mb-3">Please select your budget.</h2>
                     <p className="text-white/50 font-light text-sm mb-3">Please let us know the budget for your project</p> 
             <div className="border-b border-slate-700/25 mt-8"></div>
-                   
-                    <form className="mt-16 text-white">
-                        <Slider type='success' className="text-white" marks={marks} defaultValue={12500} tooltipVisible min={5000} max={35000}/>
-                        <div className="flex ml-80 mt-16">
-                   <p className="text-white mt-2 mr-2 grid font-light">Back</p>
+                      
+                    <form className="mt-16 text-white" onSubmit={formik.handleSubmit}>
+                        <Slider type='success' className="text-white" marks={marks} /* defaultValue={12500} */  tooltipVisible min={5000} max={35000}/>
+                        <div className="flex ml-64 mt-16">
+                        <button type='button' className='text-white' onClick={()=> props.prev()}>Back</button>
+
 
                     <button type="submit" className="bg-green-400 px-7 py-3 text-xs text-white font-medium rounded-3xl ml-16">Next Step</button>
                         
                         </div>
                     </form>
-                    
                 </div>
 
             </div>
